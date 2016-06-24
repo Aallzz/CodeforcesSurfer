@@ -86,7 +86,26 @@ public class UserInfoWindow extends JFrame {
         jTextField = new JTextField();
         jTextField.setSize(250, 30);
         jTextField.setLocation(0, 150);
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                justDoIt();
+            }
+        });
         add(jTextField);
+    }
+
+    private void justDoIt() {
+        String text = jTextField.getText();
+        if (text.length() == 0) {
+            JOptionPane.showMessageDialog(Main.userInfoWindow,  "Field username can not be empty!", "Error!", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                loadUserInfo(text);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     private void addOkButton() {
@@ -97,16 +116,7 @@ public class UserInfoWindow extends JFrame {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String text = jTextField.getText();
-                if (text.length() == 0) {
-                    JOptionPane.showMessageDialog(Main.userInfoWindow,  "Field username can not be empty!", "Error!", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    try {
-                        loadUserInfo(text);
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                }
+                justDoIt();
             }
         });
         add(okButton);
@@ -153,8 +163,20 @@ public class UserInfoWindow extends JFrame {
                 if (object != null) {
                     infoText = infoText + "Organization: " + object + NEW_LINE;
                 }
+                object = resObj.get("firstName");
+                String name = "#";
+                if (object != null) {
+                    name = (String)object;
+                }
+                object = resObj.get("lastName");
+                if (object != null) {
+                    if (name.equals("#")) {
+                        name = (String)object;
+                    }
+                    name = name + " " + (String)object;
+                }
+                infoText = infoText + "Name: " + name + NEW_LINE;
                 infoText += "</html>";
-                System.out.println(infoText);
                 allInfo.setText(infoText);
             }
         }
