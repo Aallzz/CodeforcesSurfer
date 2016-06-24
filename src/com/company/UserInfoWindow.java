@@ -6,11 +6,13 @@ import org.json.simple.parser.JSONParser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserInfoWindow extends JFrame {
@@ -20,6 +22,7 @@ public class UserInfoWindow extends JFrame {
     private JButton okButton;
     private JButton backButton;
     private JTextField jTextField;
+    private ImageIcon defaultIcon;
 
     public UserInfoWindow() throws Exception {
         super("Codeforces Surfer User Info");
@@ -35,10 +38,16 @@ public class UserInfoWindow extends JFrame {
         addUserAvatar();
     }
 
-    private void addUserAvatar() {
+    private void addUserAvatar() throws Exception {
         userAvatar = new JLabel();
-        userAvatar.setSize(300, 300);
-        userAvatar.setLocation(500, 0);
+        userAvatar.setSize(230, 260);
+        userAvatar.setLocation(450, 110);
+        Border border = BorderFactory.createLineBorder(Color.ORANGE, 5, true);
+        userAvatar.setBorder(border);
+        Image image = ImageIO.read(new File("Assets/no-avatar.jpg"));
+        image = ImagePanel.getScaledImage(image, 230, 260);
+        defaultIcon = new ImageIcon(image);
+        userAvatar.setIcon(defaultIcon);
         add(userAvatar);
     }
 
@@ -78,7 +87,6 @@ public class UserInfoWindow extends JFrame {
         ArrayList<String> result = connection.makeRequest();
         JSONParser parser = new JSONParser();
         for (String jSonQuery : result) {
-            //System.out.println(jSonQuery);
             Object obj = parser.parse(jSonQuery);
             JSONObject jSon = (JSONObject) obj;
             String status = (String)jSon.get("status");
@@ -88,11 +96,7 @@ public class UserInfoWindow extends JFrame {
                 JSONArray res = (JSONArray)jSon.get("result");
                 JSONObject resObj = (JSONObject)res.get(0);
                 userAvatar.setIcon(ImagePanel.readFromURL((String)resObj.get("titlePhoto")));
-                userAvatar.setLocation(800 - userAvatar.getIcon().getIconWidth(), 0);
-                userAvatar.setSize(userAvatar.getIcon().getIconWidth(), userAvatar.getIcon().getIconHeight());
-                userAvatar.setVisible(true);
             }
-            //System.out.println(jSon.get("status"));
         }
     }
 
@@ -118,6 +122,11 @@ public class UserInfoWindow extends JFrame {
             }
         });
         add(backButton);
+    }
+
+    public void clear() {
+        jTextField.setText("");
+        userAvatar.setIcon(defaultIcon);
     }
 
 }

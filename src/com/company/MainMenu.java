@@ -40,6 +40,7 @@ public class MainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
+                Main.userInfoWindow.clear();
                 Main.userInfoWindow.setVisible(true);
             }
         });

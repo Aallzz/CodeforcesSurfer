@@ -3,6 +3,7 @@ package com.company;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 
 class ImagePanel extends JComponent {
@@ -17,10 +18,21 @@ class ImagePanel extends JComponent {
         g.drawImage(image, 0, 0, this);
     }
 
+    public static Image getScaledImage(Image srcImg, int w, int h) {
+        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(srcImg, 0, 0, w, h, null);
+        g2.dispose();
+
+        return resizedImg;
+    }
+
     public static ImageIcon readFromURL(String stringURL) throws Exception {
-        //System.out.println("!! " + stringURL);
         URL url = new URL(stringURL);
         Image image = ImageIO.read(url);
+        image = getScaledImage(image, 230, 260);
         return new ImageIcon(image);
     }
 
