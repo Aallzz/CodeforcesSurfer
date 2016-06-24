@@ -1,5 +1,9 @@
 package com.company;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +16,7 @@ import java.util.ArrayList;
 public class UserInfoWindow extends JFrame {
 
     private JLabel infoLabel;
+    private JLabel userAvatar;
     private JButton okButton;
     private JButton backButton;
     private JTextField jTextField;
@@ -27,6 +32,14 @@ public class UserInfoWindow extends JFrame {
         addBackButton();
         addTextField();
         addOkButton();
+        addUserAvatar();
+    }
+
+    private void addUserAvatar() {
+        userAvatar = new JLabel();
+        userAvatar.setSize(300, 300);
+        userAvatar.setLocation(500, 0);
+        add(userAvatar);
     }
 
     private void addTextField() {
@@ -63,8 +76,21 @@ public class UserInfoWindow extends JFrame {
         String urlRequest = " http://codeforces.com/api/user.info?handles=" + handle;
         HTTPConnection connection = new HTTPConnection(urlRequest);
         ArrayList<String> result = connection.makeRequest();
-        for (String s : result) {
-            System.out.println(s);
+        JSONParser parser = new JSONParser();
+        for (String jSonQuery : result) {
+            //System.out.println(jSonQuery);
+            Object obj = parser.parse(jSonQuery);
+            JSONObject jSon = (JSONObject) obj;
+            String status = (String)jSon.get("status");
+            if (status.equals("FAILED")) {
+                JOptionPane.showMessageDialog(Main.userInfoWindow,  jSon.get("comment"), "Error!", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JSONArray res = (JSONArray)jSon.get("result");
+                JSONObject resObj = (JSONObject)res.get(0);
+                userAvatar.setIcon(ImagePanel.readFromURL((String)resObj.get("titlePhoto")));
+                userAvatar.setVisible(true);
+            }
+            //System.out.println(jSon.get("status"));
         }
     }
 

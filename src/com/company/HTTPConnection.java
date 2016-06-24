@@ -22,7 +22,12 @@ public class HTTPConnection {
     ArrayList<String> makeRequest() throws Exception {
         mainHttpConnection = (HttpURLConnection)url.openConnection();
         ArrayList<String> result = new ArrayList<>();
-        InputStream inputStream = mainHttpConnection.getInputStream();
+        InputStream inputStream;
+        if (mainHttpConnection.getResponseCode() < 400) {
+            inputStream = mainHttpConnection.getInputStream();
+        } else {
+            inputStream = mainHttpConnection.getErrorStream();
+        }
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 

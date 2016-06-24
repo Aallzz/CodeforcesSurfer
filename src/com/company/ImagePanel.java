@@ -18,6 +18,7 @@ class ImagePanel extends JComponent {
     }
 
     public static ImageIcon readFromURL(String stringURL) throws Exception {
+        //System.out.println("!! " + stringURL);
         URL url = new URL(stringURL);
         Image image = ImageIO.read(url);
         return new ImageIcon(image);
