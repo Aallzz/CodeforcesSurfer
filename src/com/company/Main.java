@@ -14,6 +14,9 @@ public class Main {
     }
 
     public static Color getColorByRating(int rating) {
+        if (rating == 0) {
+            return Color.BLACK;
+        }
         if (rating <= 1199) {
             return Color.DARK_GRAY;
         }
@@ -32,6 +35,9 @@ public class Main {
         if (rating <= 2399) {
             return Color.ORANGE;
         }
-        return Color.RED;
+        if (rating >= 2400) {
+            return Color.RED;
+        }
+        return Color.BLACK;
     }
 }
