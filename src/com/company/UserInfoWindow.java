@@ -12,13 +12,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserInfoWindow extends JFrame {
 
+    public static final String NEW_LINE = "<br>";
+
+    private JLabel allInfo;
     private JLabel infoLabel;
     private JLabel userAvatar;
+    private JLabel handleLabel;
     private JButton okButton;
     private JButton backButton;
     private JTextField jTextField;
@@ -31,11 +34,39 @@ public class UserInfoWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BufferedImage backgroundImage = ImageIO.read(new File("Assets/any-background.jpg"));
         setContentPane(new ImagePanel(backgroundImage));
-        addInfoLabel();
-        addBackButton();
+        addLabels();
+        addButtons();
         addTextField();
+    }
+
+    private void addButtons() {
+        addBackButton();
         addOkButton();
+    }
+
+    private void addLabels() throws Exception {
+        addProfileInfo();
+        addHandleLabel();
         addUserAvatar();
+        addInfoLabel();
+     }
+
+    private void addProfileInfo() {
+        allInfo = new JLabel();
+        allInfo.setSize(300, 600);
+        allInfo.setLocation(150, 0);
+        allInfo.setFont(new Font("Serif", Font.PLAIN, 17));
+        allInfo.setText("");
+        add(allInfo);
+    }
+
+    private void addHandleLabel() {
+        handleLabel = new JLabel();
+        handleLabel.setFont(new Font("Serif", Font.CENTER_BASELINE, 20));
+        handleLabel.setText("");
+        handleLabel.setSize(250, 30);
+        handleLabel.setLocation(500, 80);
+        add(handleLabel);
     }
 
     private void addUserAvatar() throws Exception {
@@ -96,6 +127,35 @@ public class UserInfoWindow extends JFrame {
                 JSONArray res = (JSONArray)jSon.get("result");
                 JSONObject resObj = (JSONObject)res.get(0);
                 userAvatar.setIcon(ImagePanel.readFromURL((String)resObj.get("titlePhoto")));
+                handleLabel.setText("<html><div style='text-align: center;'>" + resObj.get("handle") + "</html>");
+                int r = 0;
+                Object rating = resObj.get("rating");
+                if (rating != null) {
+                    r = (int)( (long)resObj.get("rating") );
+                    handleLabel.setForeground(Main.getColorByRating(r));
+                }
+                Object object = null;
+                String infoText = null;
+                infoText = "<html>Rating: " + r + NEW_LINE;
+                object = resObj.get("rank");
+                if (object != null) {
+                    infoText = infoText + "Rank: " + object + NEW_LINE;
+                }
+                object = resObj.get("country");
+                if (object != null) {
+                    infoText = infoText + "Country: " + object + NEW_LINE;
+                }
+                object = resObj.get("city");
+                if (object != null) {
+                    infoText = infoText + "City: " + object + NEW_LINE;
+                }
+                object = resObj.get("organization");
+                if (object != null) {
+                    infoText = infoText + "Organization: " + object + NEW_LINE;
+                }
+                infoText += "</html>";
+                System.out.println(infoText);
+                allInfo.setText(infoText);
             }
         }
     }
@@ -125,7 +185,9 @@ public class UserInfoWindow extends JFrame {
     }
 
     public void clear() {
+        allInfo.setText("");
         jTextField.setText("");
+        handleLabel.setText("");
         userAvatar.setIcon(defaultIcon);
     }
 
