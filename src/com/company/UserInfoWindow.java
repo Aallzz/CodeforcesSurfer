@@ -88,6 +88,8 @@ public class UserInfoWindow extends JFrame {
                 JSONArray res = (JSONArray)jSon.get("result");
                 JSONObject resObj = (JSONObject)res.get(0);
                 userAvatar.setIcon(ImagePanel.readFromURL((String)resObj.get("titlePhoto")));
+                userAvatar.setLocation(800 - userAvatar.getIcon().getIconWidth(), 0);
+                userAvatar.setSize(userAvatar.getIcon().getIconWidth(), userAvatar.getIcon().getIconHeight());
                 userAvatar.setVisible(true);
             }
             //System.out.println(jSon.get("status"));
