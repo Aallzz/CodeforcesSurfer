@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class UserInfoWindow extends JFrame {
 
@@ -24,9 +25,50 @@ public class UserInfoWindow extends JFrame {
         setContentPane(new ImagePanel(backgroundImage));
         addInfoLabel();
         addBackButton();
+        addTextField();
+        addOkButton();
     }
 
-    void addInfoLabel() {
+    private void addTextField() {
+        jTextField = new JTextField();
+        jTextField.setSize(250, 30);
+        jTextField.setLocation(0, 150);
+        add(jTextField);
+    }
+
+    private void addOkButton() {
+        okButton = new JButton("", new ImageIcon("Assets/ok-button.gif"));
+        ImagePanel.removeBackround(okButton);
+        okButton.setSize(85, 60);
+        okButton.setLocation(0, 200);
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = jTextField.getText();
+                if (text.length() == 0) {
+                    JOptionPane.showMessageDialog(Main.userInfoWindow,  "Field username can not be empty!", "Error!", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        loadUserInfo(text);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+        add(okButton);
+    }
+
+    private void loadUserInfo(String handle) throws Exception {
+        String urlRequest = " http://codeforces.com/api/user.info?handles=" + handle;
+        HTTPConnection connection = new HTTPConnection(urlRequest);
+        ArrayList<String> result = connection.makeRequest();
+        for (String s : result) {
+            System.out.println(s);
+        }
+    }
+
+    private void addInfoLabel() {
         infoLabel = new JLabel();
         infoLabel.setFont(new Font("Serif", Font.BOLD, 30));
         infoLabel.setText("Enter a username:");
@@ -35,7 +77,7 @@ public class UserInfoWindow extends JFrame {
         add(infoLabel);
     }
 
-    void addBackButton() {
+    private void addBackButton() {
         backButton = new JButton("", new ImageIcon("Assets/back-button.gif"));
         ImagePanel.removeBackround(backButton);
         backButton.setSize(134, 60);

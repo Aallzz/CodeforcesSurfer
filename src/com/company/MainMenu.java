@@ -23,7 +23,7 @@ public class MainMenu extends JFrame {
         addGetUserInfoButton();
     }
 
-    void addCodeforcesLogo() {
+   private void addCodeforcesLogo() {
         codeforfesLogo = new JLabel();
         codeforfesLogo.setIcon(new ImageIcon("Assets/cflogo.png"));
         codeforfesLogo.setSize(350, 50);
@@ -31,7 +31,7 @@ public class MainMenu extends JFrame {
         add(codeforfesLogo);
     }
 
-    void addGetUserInfoButton() {
+    private void addGetUserInfoButton() {
         getUserInfoButton = new JButton("", new ImageIcon("Assets/get-user-info.gif"));
         ImagePanel.removeBackround(getUserInfoButton);
         getUserInfoButton.setSize(198, 47);
