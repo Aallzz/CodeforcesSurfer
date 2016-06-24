@@ -143,6 +143,8 @@ public class UserInfoWindow extends JFrame {
                 if (rating != null) {
                     r = (int)( (long)resObj.get("rating") );
                     handleLabel.setForeground(Main.getColorByRating(r));
+                } else {
+                    handleLabel.setForeground(Main.getColorByRating(0));
                 }
                 Object object = null;
                 String infoText = null;
