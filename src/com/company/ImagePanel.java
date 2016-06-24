@@ -16,14 +16,8 @@ class ImagePanel extends JComponent {
     }
 
     public static void removeBackround(JButton jButton) {
-        /*jButton.setOpaque(false);
-        jButton.setBorderPainted(false);
+        jButton.setOpaque(false);
         jButton.setContentAreaFilled(false);
-        jButton.setFocusPainted(false);*/
-        //jButton.setBorder(null);
-        //jButton.setBorderPainted(false);
-        jButton.setContentAreaFilled(false);
-        //jButton.setOpaque(false);
     }
 
 }

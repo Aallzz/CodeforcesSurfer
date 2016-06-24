@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6b711bd-898a-4fa6-8b7d-42db7eec39d9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Assets/get-user-info.gif" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeforcesSurfer/com/company/ImagePanel.class" afterPath="$PROJECT_DIR$/out/production/CodeforcesSurfer/com/company/ImagePanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/CodeforcesSurfer/com/company/MainMenu.class" afterPath="$PROJECT_DIR$/out/production/CodeforcesSurfer/com/company/MainMenu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/ImagePanel.java" afterPath="$PROJECT_DIR$/src/com/company/ImagePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/MainMenu.java" afterPath="$PROJECT_DIR$/src/com/company/MainMenu.java" />
     </list>
     <ignored path="CodeforcesSurfer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,7 +34,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainMenu.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainMenu.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/MainMenu.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
@@ -51,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImagePanel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ImagePanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/ImagePanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
+            <state relative-caret-position="272">
+              <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -98,8 +93,8 @@
         <option value="$PROJECT_DIR$/src/com/company/HTTPConection.java" />
         <option value="$PROJECT_DIR$/src/com/company/HTTPConnection.java" />
         <option value="$PROJECT_DIR$/src/com/company/Main.java" />
-        <option value="$PROJECT_DIR$/src/com/company/ImagePanel.java" />
         <option value="$PROJECT_DIR$/src/com/company/MainMenu.java" />
+        <option value="$PROJECT_DIR$/src/com/company/ImagePanel.java" />
       </list>
     </option>
   </component>
@@ -546,16 +541,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/ImagePanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/get-user-info.gif">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -565,6 +550,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/ImagePanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
