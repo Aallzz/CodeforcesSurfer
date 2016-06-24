@@ -13,11 +13,18 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class UserInfoWindow extends JFrame {
 
     public static final String NEW_LINE = "<br>";
+
+    private boolean loaded = false;
+    private Object lastLoadedObject = null;
+
+    private String infoText = null;
 
     private JLabel allInfo;
     private JLabel infoLabel;
@@ -25,6 +32,7 @@ public class UserInfoWindow extends JFrame {
     private JLabel handleLabel;
     private JButton okButton;
     private JButton backButton;
+    private JButton skillsButton;
     private JTextField jTextField;
     private ImageIcon defaultIcon;
 
@@ -52,6 +60,32 @@ public class UserInfoWindow extends JFrame {
     private void addButtons() {
         addBackButton();
         addOkButton();
+        addSkillsButton();
+    }
+
+    private void addSkillsButton() {
+        skillsButton = new JButton("", new ImageIcon("Assets/top-skills.gif"));
+        ImagePanel.removeBackround(skillsButton);
+        skillsButton.setSize(327, 60);
+        skillsButton.setLocation(360, 400);
+
+        skillsButton.addActionListener(new ActionListener()  {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!loaded || lastLoadedObject == null) {
+                    JOptionPane.showMessageDialog(Main.userInfoWindow,  "No user profile loaded!", "Error!", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JSONObject resObj = (JSONObject) lastLoadedObject;
+                    try {
+                        infoText = infoText + "Top Skills: " + getTopSkills((String)resObj.get("handle")) + NEW_LINE;
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                    allInfo.setText(infoText + "</html>");
+                }
+            }
+        });
+        add(skillsButton);
     }
 
     private void addLabels() throws Exception {
@@ -64,7 +98,7 @@ public class UserInfoWindow extends JFrame {
     private void addProfileInfo() {
         allInfo = new JLabel();
         allInfo.setSize(300, 600);
-        allInfo.setLocation(150, 0);
+        allInfo.setLocation(150, -30);
         allInfo.setFont(new Font("Serif", Font.PLAIN, 17));
         allInfo.setText("");
         add(allInfo);
@@ -158,6 +192,7 @@ public class UserInfoWindow extends JFrame {
             } else {
                 JSONArray res = (JSONArray)jSon.get("result");
                 JSONObject resObj = (JSONObject)res.get(0);
+                lastLoadedObject = resObj;
                 userAvatar.setIcon(ImagePanel.readFromURL((String)resObj.get("titlePhoto")));
                 handleLabel.setText("<html><div style='text-align: center;'>" + resObj.get("handle") + "</html>");
                 int r = 0;
@@ -169,7 +204,7 @@ public class UserInfoWindow extends JFrame {
                     handleLabel.setForeground(Main.getColorByRating(0));
                 }
                 Object object = null;
-                String infoText = null;
+                infoText = null;
                 infoText = "<html>Rating: " + r + NEW_LINE;
                 object = resObj.get("rank");
                 if (object != null) {
@@ -200,10 +235,67 @@ public class UserInfoWindow extends JFrame {
                     name = name + " " + (String)object;
                 }
                 infoText = infoText + "Name: " + name + NEW_LINE;
-                infoText += "</html>";
-                allInfo.setText(infoText);
+                allInfo.setText(infoText + "</html>");
             }
         }
+        loaded = true;
+    }
+
+    private String getTopSkills(String handle) throws Exception {
+        String result = "";
+        HashMap<String, Integer> skills = new HashMap<>();
+        String urlRequest = " http://codeforces.com/api/user.status?handle=" + handle + "&from=1&count=1000000";
+        HTTPConnection connection = new HTTPConnection(urlRequest);
+        ArrayList<String> arrayList = connection.makeRequest();
+        JSONParser parser = new JSONParser();
+        for (String s : arrayList) {
+            JSONObject jsonObject = (JSONObject) parser.parse(s);
+            JSONArray jsonArray = (JSONArray)jsonObject.get("result");
+            for (int j = 0; j < jsonArray.size(); j++) {
+                JSONObject element = (JSONObject)jsonArray.get(j);
+                if (element.get("verdict").equals("OK")) {
+                    JSONObject problem = (JSONObject)element.get("problem");
+                    JSONArray tags = (JSONArray)problem.get("tags");
+                    for (int idx = 0; idx < tags.size(); idx++) {
+                        String currentTag = (String)tags.get(idx);
+                        int value = 0;
+                        if (skills.containsKey(currentTag)) {
+                            value = skills.get(currentTag);
+                            skills.remove(currentTag);
+                        }
+                        value++;
+                        skills.put(currentTag, value);
+                    }
+                }
+            }
+        }
+        int maxValue = -1;
+        String key = "#";
+        for (String s : skills.keySet()) {
+            int itsValue = skills.get(s);
+            if (itsValue > maxValue) {
+                maxValue = itsValue;
+                key = s;
+            }
+        }
+        if (maxValue != -1) {
+            result = result + key;
+            skills.remove(key);
+        }
+        maxValue = -1;
+        key = "#";
+        for (String s : skills.keySet()) {
+            int itsValue = skills.get(s);
+            if (itsValue > maxValue) {
+                maxValue = itsValue;
+                key = s;
+            }
+        }
+        if (maxValue != -1) {
+            result = result + " & " + key;
+        }
+        skills.clear();
+        return result;
     }
 
     private void addInfoLabel() {
@@ -231,6 +323,9 @@ public class UserInfoWindow extends JFrame {
     }
 
     public void clear() {
+        loaded = false;
+        infoText = null;
+        lastLoadedObject = null;
         allInfo.setText("");
         jTextField.setText("");
         handleLabel.setText("");
