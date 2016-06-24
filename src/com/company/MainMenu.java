@@ -2,6 +2,8 @@ package com.company;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -11,8 +13,8 @@ public class MainMenu extends JFrame {
     private JButton getUserInfoButton;
 
     public MainMenu() throws Exception {
-        super("Main Menu");
-        setBounds(50, 50, 1200, 800);
+        super("Codeforces Surfer Main Menu");
+        setBounds(200, 100, 800, 600);
         setResizable(false);
         BufferedImage backgroundImage = ImageIO.read(new File("Assets/main-menu-background.jpg"));
         setContentPane(new ImagePanel(backgroundImage));
@@ -29,7 +31,17 @@ public class MainMenu extends JFrame {
     }
 
     void addGetUserInfoButton() {
-        getUserInfoButton = new JButton();
+        getUserInfoButton = new JButton("", new ImageIcon("Assets/get-user-info.gif"));
+        ImagePanel.removeBackround(getUserInfoButton);
+        getUserInfoButton.setSize(198, 47);
+        getUserInfoButton.setLocation(0, 100);
+        getUserInfoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        add(getUserInfoButton);
     }
 
 }
