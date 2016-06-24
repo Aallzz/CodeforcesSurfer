@@ -16,6 +16,7 @@ public class MainMenu extends JFrame {
         super("Codeforces Surfer Main Menu");
         setBounds(200, 100, 800, 600);
         setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BufferedImage backgroundImage = ImageIO.read(new File("Assets/main-menu-background.jpg"));
         setContentPane(new ImagePanel(backgroundImage));
         addCodeforcesLogo();
@@ -38,7 +39,8 @@ public class MainMenu extends JFrame {
         getUserInfoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                setVisible(false);
+                Main.userInfoWindow.setVisible(true);
             }
         });
         add(getUserInfoButton);
