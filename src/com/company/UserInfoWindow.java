@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class UserInfoWindow extends JFrame {
 
@@ -27,6 +28,8 @@ public class UserInfoWindow extends JFrame {
     private JTextField jTextField;
     private ImageIcon defaultIcon;
 
+    HashSet<Character> russianLetters;
+
     public UserInfoWindow() throws Exception {
         super("Codeforces Surfer User Info");
         setBounds(200, 100, 800, 600);
@@ -37,6 +40,13 @@ public class UserInfoWindow extends JFrame {
         addLabels();
         addButtons();
         addTextField();
+        russianLetters = new HashSet<>();
+        for (char c = 'а'; c <= 'я'; c++) {
+            russianLetters.add(c);
+        }
+        for (char c = 'А'; c <= 'Я'; c++) {
+            russianLetters.add(c);
+        }
     }
 
     private void addButtons() {
@@ -101,6 +111,18 @@ public class UserInfoWindow extends JFrame {
             JOptionPane.showMessageDialog(Main.userInfoWindow,  "Field username can not be empty!", "Error!", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
+                boolean haveRussian = false;
+                for (int i = 0; i < text.length(); i++) {
+                    if (russianLetters.contains(text.charAt(i))) {
+                        haveRussian = true;
+                        break;
+                    }
+                }
+                if (haveRussian) {
+                    JOptionPane.showMessageDialog(Main.userInfoWindow,  "You may not use russian letters!", "Error!", JOptionPane.ERROR_MESSAGE);
+                    jTextField.setText("");
+                    return;
+                }
                 loadUserInfo(text);
             } catch (Exception e1) {
                 e1.printStackTrace();
