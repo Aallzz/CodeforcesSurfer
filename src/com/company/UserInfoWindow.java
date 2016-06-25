@@ -20,7 +20,9 @@ public class UserInfoWindow extends JFrame {
 
     public static final String NEW_LINE = "<br>";
 
+    private String lastHandle = ".";
     private boolean loaded = false;
+    private boolean topSkillsLoaded = false;
     private Object lastLoadedObject = null;
 
     private String infoText = null;
@@ -71,6 +73,7 @@ public class UserInfoWindow extends JFrame {
         skillsButton.addActionListener(new ActionListener()  {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (topSkillsLoaded) return;
                 if (!loaded || lastLoadedObject == null) {
                     JOptionPane.showMessageDialog(Main.userInfoWindow,  "No user profile loaded!", "Error!", JOptionPane.ERROR_MESSAGE);
                 } else {
@@ -156,6 +159,10 @@ public class UserInfoWindow extends JFrame {
                     jTextField.setText("");
                     return;
                 }
+                if (text.equals(lastHandle)) {
+                    return;
+                }
+                lastHandle = text;
                 loadUserInfo(text);
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -241,6 +248,7 @@ public class UserInfoWindow extends JFrame {
     }
 
     private String getTopSkills(String handle) throws Exception {
+        topSkillsLoaded = true;
         String result = "";
         HashMap<String, Integer> skills = new HashMap<>();
         String urlRequest = " http://codeforces.com/api/user.status?handle=" + handle + "&from=1&count=1000000";
@@ -322,6 +330,8 @@ public class UserInfoWindow extends JFrame {
     }
 
     public void clear() {
+        lastHandle = ".";
+        topSkillsLoaded = false;
         loaded = false;
         infoText = null;
         lastLoadedObject = null;
