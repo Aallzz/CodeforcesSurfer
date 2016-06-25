@@ -37,6 +37,7 @@ public class MainMenu extends JFrame {
                 setVisible(false);
                 Main.contestInfoWindow.clear();
                 Main.contestInfoWindow.setVisible(true);
+                Main.contestInfoWindow.visit();
             }
         });
         add(getContestInfoButton);
