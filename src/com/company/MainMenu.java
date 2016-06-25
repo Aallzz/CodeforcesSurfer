@@ -2,6 +2,7 @@ package com.company;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -11,6 +12,7 @@ public class MainMenu extends JFrame {
 
     private JLabel codeforfesLogo;
     private JButton getUserInfoButton;
+    private JButton getContestInfoButton;
 
     public MainMenu() throws Exception {
         super("Codeforces Surfer Main Menu");
@@ -21,6 +23,23 @@ public class MainMenu extends JFrame {
         setContentPane(new ImagePanel(backgroundImage));
         addCodeforcesLogo();
         addGetUserInfoButton();
+        addGetContestInfoButton();
+    }
+
+    private void addGetContestInfoButton() {
+        getContestInfoButton = new JButton("", new ImageIcon("Assets/get-contest-info.gif"));
+        ImagePanel.removeBackround(getContestInfoButton);
+        getContestInfoButton.setSize(379, 60);
+        getContestInfoButton.setLocation(0, 170);
+        getContestInfoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                Main.contestInfoWindow.clear();
+                Main.contestInfoWindow.setVisible(true);
+            }
+        });
+        add(getContestInfoButton);
     }
 
    private void addCodeforcesLogo() {
