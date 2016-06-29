@@ -2,6 +2,8 @@ package com.company;
 
 import java.awt.*;
 
+// Main starts here
+
 public class Main {
 
     public static MainMenu mainMenu;
